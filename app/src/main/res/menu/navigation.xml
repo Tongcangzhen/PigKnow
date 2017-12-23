@@ -3,12 +3,12 @@
 
     <item
         android:id="@+id/navigation_home"
-        android:icon="@drawable/ic_home_black_24dp"
-        android:title="@string/title_home" />
+        android:icon="@drawable/ic_action_gantanhao"
+        android:title="待审核" />
 
     <item
         android:id="@+id/navigation_assessment"
-        android:icon="@drawable/ic_assessment_black_24dp"
-        android:title="@string/title_assessment" />
+        android:icon="@drawable/ic_action_done"
+        android:title="已审核" />
 
 </menu>
