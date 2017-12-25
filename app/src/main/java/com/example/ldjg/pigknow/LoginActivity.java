@@ -135,6 +135,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mProgressView = findViewById(R.id.login_progress);
 
     }
+    @Override
+    protected void onStart(){
+        super.onStart();
+        AdminSharedPreference adminSharedPreference=new AdminSharedPreference(this);
+        if(adminSharedPreference.isSignIn()){
+            Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+            startActivity(intent);
+        }
+    }
 
     private void populateAutoComplete() {
         if (!mayRequestContacts()) {

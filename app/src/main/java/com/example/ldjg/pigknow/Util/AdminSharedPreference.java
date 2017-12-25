@@ -36,6 +36,7 @@ public class AdminSharedPreference {
         editor.putString("invitationCode",admin.getInvitationCode());
         editor.putString("createdAt",admin.getCreatedAt());
         editor.putString("updatedAt",admin.getUpdatedAt());
+        editor.putBoolean("isAdminSign",true);
         editor.apply();
     }
     public Admin getAdminObj(){
@@ -45,6 +46,9 @@ public class AdminSharedPreference {
         admin.setPassword(preferences.getString("password",""));
         admin.setInvitationCode(preferences.getString("invitationCode",""));
         return admin;
+    }
+    public boolean isSignIn(){
+       return preferences.getBoolean("isAdminSign",false);
     }
 
 }
