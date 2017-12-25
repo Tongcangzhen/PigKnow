@@ -34,8 +34,17 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.ldjg.pigknow.Util.AdminSharedPreference;
+import com.example.ldjg.pigknow.database.Admin;
+
 import java.util.ArrayList;
 import java.util.List;
+
+import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.BmobUser;
+import cn.bmob.v3.exception.BmobException;
+import cn.bmob.v3.listener.FindListener;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -48,7 +57,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
-
+    static final String Application_ID="06c7495520e2e880e986f7c707b91fcb";
     /**
      * A dummy authentication store containing known user names and passwords.
      * TODO: remove after connecting to a real authentication system.
@@ -59,7 +68,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     /**
      * Keep track of the login task to ensure we can cancel it if requested.
      */
-    private UserLoginTask mAuthTask = null;
+//    private UserLoginTask mAuthTask = null;
 
     // UI references.
     private AutoCompleteTextView mEmailView;
@@ -69,12 +78,15 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private View mProgressView;
     private View mLoginFormView;
     private CheckBox rememberPasswd;
+    private TextView register_view;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
         // Set up the login form.
+
+        Bmob.initialize(this,Application_ID);
 
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
@@ -84,7 +96,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             @Override
             public boolean onEditorAction(TextView textView, int id, KeyEvent keyEvent) {
                 if (id == R.id.login || id == EditorInfo.IME_NULL) {
-                    attemptLogin();
+                   myattemptLogin();
                     return true;
                 }
                 return false;
@@ -106,7 +118,16 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         mEmailSignInButton.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View view) {
-                attemptLogin();
+                myattemptLogin();
+            }
+        });
+
+        register_view=(TextView)findViewById(R.id.textview_register);
+        register_view.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent=new Intent(LoginActivity.this,RegisterAdminActivity.class);
+                startActivity(intent);
             }
         });
 
@@ -164,11 +185,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * If there are form errors (invalid email, missing fields, etc.), the
      * errors are presented and no actual login attempt is made.
      */
-    private void attemptLogin() {
-        if (mAuthTask != null) {
-            return;
-        }
-
+    private void myattemptLogin(){
         // Reset errors.
         mEmailView.setError(null);
         mPasswordView.setError(null);
@@ -193,7 +210,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
             focusView = mEmailView;
             cancel = true;
         } else if (!isEmailValid(email)) {
-            mEmailView.setError(getString(R.string.error_invalid_email));
+            mEmailView.setError(getString(R.string.error_invalid_account));
             focusView = mEmailView;
             cancel = true;
         }
@@ -220,14 +237,109 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 
 
             showProgress(true);
-            mAuthTask = new UserLoginTask(email, password);
-            mAuthTask.execute((Void) null);
+            loginAdminBmob(email,password);
+//            mAuthTask = new UserLoginTask(email, password);
+//            mAuthTask.execute((Void) null);
         }
     }
+    private void loginAdminBmob(String account,String password){
+        BmobQuery<Admin> query=new BmobQuery<Admin>();
+        query.addWhereEqualTo("adminAccount",account);
+        query.findObjects(new FindListener<Admin>() {
+            @Override
+            public void done(List<Admin> list, BmobException e) {
+                if(e==null){
+                    showProgress(false);
+                    if(list.size()==0)
+                    {
+                        Toast.makeText(LoginActivity.this, "账号不存在：", Toast.LENGTH_SHORT).show();
+                    }
+                    else {
+                        Admin admin= list.get(0);
+                        AdminSharedPreference preference=new AdminSharedPreference(LoginActivity.this,admin);
+                        preference.setPreferences();
+                        Toast.makeText(LoginActivity.this, "登录成功：", Toast.LENGTH_SHORT).show();
+                        Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+                        startActivity(intent);
+                        finish();
+                    }
+                }
+                else
+                {
+                    showProgress(false);
+                    Toast.makeText(LoginActivity.this, "登录失败：", Toast.LENGTH_SHORT).show();
+                }
+            }
+        });
+    }
+
+//    private void attemptLogin() {
+//        if (mAuthTask != null) {
+//            return;
+//        }
+//
+//        // Reset errors.
+//        mEmailView.setError(null);
+//        mPasswordView.setError(null);
+//
+//        // Store values at the time of the login attempt.
+//        String email = mEmailView.getText().toString();
+//        String password = mPasswordView.getText().toString();
+//
+//        boolean cancel = false;
+//        View focusView = null;
+//
+//        // Check for a valid password, if the user entered one.
+//        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
+//            mPasswordView.setError(getString(R.string.error_invalid_password));
+//            focusView = mPasswordView;
+//            cancel = true;
+//        }
+//
+//        // Check for a valid email address.
+//        if (TextUtils.isEmpty(email)) {
+//            mEmailView.setError(getString(R.string.error_field_required));
+//            focusView = mEmailView;
+//            cancel = true;
+//        } else if (!isEmailValid(email)) {
+//            mEmailView.setError(getString(R.string.error_invalid_email));
+//            focusView = mEmailView;
+//            cancel = true;
+//        }
+//
+//        if (cancel) {
+//            // There was an error; don't attempt login and focus the first
+//            // form field with an error.
+//            focusView.requestFocus();
+//        } else {
+//            // Show a progress spinner, and kick off a background task to
+//            // perform the user login attempt.
+//
+//            //记住密码功能
+//            editor=pref.edit();
+//            if(rememberPasswd.isChecked()){
+//                editor.putBoolean("remember_password",true);
+//                editor.putString("account",email);
+//                editor.putString("password",password);
+//            }
+//            else {
+//                editor.clear();
+//            }
+//            editor.apply();
+//
+//
+//            showProgress(true);
+//            mAuthTask = new UserLoginTask(email, password);
+//            mAuthTask.execute((Void) null);
+//        }
+//    }
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic
-        return email.contains("@");
+       if (email.length()>20||email.length()<6)
+           return false;
+        else
+            return true;
     }
 
     private boolean isPasswordValid(String password) {
@@ -329,60 +441,90 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Represents an asynchronous login/registration task used to authenticate
      * the user.
      */
-    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
 
-        private final String mEmail;
-        private final String mPassword;
 
-        UserLoginTask(String email, String password) {
-            mEmail = email;
-            mPassword = password;
-        }
-
-        @Override
-        protected Boolean doInBackground(Void... params) {
-            // TODO: attempt authentication against a network service.
-
-            try {
-                // Simulate network access.
-                Thread.sleep(2000);
-            } catch (InterruptedException e) {
-                return false;
-            }
-
-            for (String credential : DUMMY_CREDENTIALS) {
-                String[] pieces = credential.split(":");
-                if (pieces[0].equals(mEmail)) {
-                    // Account exists, return true if the password matches.
-                    return pieces[1].equals(mPassword);
-                }
-            }
-
-            // TODO: register the new account here.
-            return false;
-        }
-
-        @Override
-        protected void onPostExecute(final Boolean success) {
-            mAuthTask = null;
-            showProgress(false);
-
-            if (success) {
-                Toast.makeText(LoginActivity.this, "登陆成功，跳转页面", Toast.LENGTH_SHORT).show();
-                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
-                startActivity(intent);
-                finish();
-            } else {
-                mPasswordView.setError(getString(R.string.error_incorrect_password));
-                mPasswordView.requestFocus();
-            }
-        }
-
-        @Override
-        protected void onCancelled() {
-            mAuthTask = null;
-            showProgress(false);
-        }
-    }
+//    public class MyUserLogin {
+//        private final String Email;
+//        private final String Password;
+//        MyUserLogin(String email,String password)
+//        {
+//            Email=email;
+//            Password=password;
+//        }
+//        Admin admin=new Admin();
+////        admin.loginByAccount(context, account, password, new LogInListener<MyUser>() {
+////
+////            @Override
+////            public void done(MyUser user, BmobException e) {
+////                // TODO Auto-generated method stub
+////                if(user!=null){
+////                    Log.i("smile","用户登陆成功");
+////                }
+////            }
+////        });
+//
+//    }
+//
+//
+//    public class UserLoginTask extends AsyncTask<Void, Void, Boolean> {
+//
+//        private final String mEmail;
+//        private final String mPassword;
+//
+//        UserLoginTask(String email, String password) {
+//            mEmail = email;
+//            mPassword = password;
+//        }
+//
+//        @Override
+//        protected Boolean doInBackground(Void... params) {
+//            // TODO: attempt authentication against a network service.
+//
+//            try {
+//                // Simulate network access.
+//                Thread.sleep(2000);
+//            } catch (InterruptedException e) {
+//                return false;
+//            }
+//
+//            for (String credential : DUMMY_CREDENTIALS) {
+//                String[] pieces = credential.split(":");
+//                if (pieces[0].equals(mEmail)) {
+//                    // Account exists, return true if the password matches.
+//                    return pieces[1].equals(mPassword);
+//                }
+//            }
+//
+//            // TODO: register the new account here.
+//            return false;
+//        }
+//
+//        @Override
+//        protected void onPostExecute(final Boolean success) {
+//            mAuthTask = null;
+//            showProgress(false);
+//
+//            if (success) {
+//                Toast.makeText(LoginActivity.this, "登陆成功，跳转页面", Toast.LENGTH_SHORT).show();
+//                Intent intent=new Intent(LoginActivity.this,MainActivity.class);
+//                startActivity(intent);
+//                finish();
+//            } else {
+//                mPasswordView.setError(getString(R.string.error_incorrect_password));
+//                mPasswordView.requestFocus();
+//            }
+//        }
+//
+//        @Override
+//        protected void onCancelled() {
+//            mAuthTask = null;
+//            showProgress(false);
+//        }
+//
+//        public void mLogin(){
+//
+//        }
+//
+//    }
 }
 
