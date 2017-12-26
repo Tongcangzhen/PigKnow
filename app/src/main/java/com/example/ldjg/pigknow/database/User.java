@@ -8,6 +8,15 @@ import cn.bmob.v3.BmobUser;
 
 public class User extends BmobUser {
     private String example;
+    private Farms farms;
+
+    public Farms getFarms() {
+        return farms;
+    }
+
+    public void setFarms(Farms farms) {
+        this.farms = farms;
+    }
 
     public String getExample() {
         return example;

@@ -1,4 +1,4 @@
-package com.example.ldjg.pigknow.fragment;
+package com.example.ldjg.pigknow;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;

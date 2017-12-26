@@ -5,7 +5,6 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-
     >
 
     <!--<TextView-->
@@ -18,20 +17,15 @@
         <!--app:layout_constraintRight_toRightOf="parent"-->
         <!--app:layout_constraintTop_toTopOf="parent" />-->
 
-    <!--<TextView-->
-        <!--android:layout_width="match_parent"-->
-        <!--android:layout_height="30dp"-->
-        <!--android:text="待审核记录"-->
-        <!--android:textColor="@color/md_pink_400"-->
-        <!--android:layout_margin="20dp"-->
-        <!--android:textSize="20dp"/>-->
-
     <android.support.v7.widget.RecyclerView
         android:id="@+id/pig_recyclerView"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
-
+        android:layout_height="match_parent"
+        android:layout_marginTop="55dp"
+        android:layout_marginBottom="55dp"
+        >
 
     </android.support.v7.widget.RecyclerView>
+
 
 </LinearLayout>

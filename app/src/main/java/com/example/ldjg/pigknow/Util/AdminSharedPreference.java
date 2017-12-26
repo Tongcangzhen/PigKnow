@@ -25,6 +25,7 @@ public class AdminSharedPreference {
     }
     public AdminSharedPreference(Context context){
         this.context=context;
+        this.admin=new Admin();
         preferences= new SecuritySharedPreference(context);
     }
     public void setPreferences(){
@@ -46,6 +47,11 @@ public class AdminSharedPreference {
         admin.setPassword(preferences.getString("password",""));
         admin.setInvitationCode(preferences.getString("invitationCode",""));
         return admin;
+    }
+    public void quitSign(){
+        editor=preferences.edit();
+        editor.clear();
+        editor.apply();
     }
     public boolean isSignIn(){
        return preferences.getBoolean("isAdminSign",false);

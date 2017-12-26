@@ -4,12 +4,9 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
-import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -20,8 +17,7 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
 
-import com.example.ldjg.pigknow.fragment.content_mian_fragment;
-import com.example.ldjg.pigknow.fragment.contrnt_assment_fragment;
+import com.example.ldjg.pigknow.Util.AdminSharedPreference;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -107,10 +103,18 @@ public class MainActivity extends AppCompatActivity
         if (id == R.id.action_settings) {
             return true;
         }
-        else if (id==R.id.action_add){
-            Intent intent=new Intent(MainActivity.this,AddPigActivity.class);
+        if (id == R.id.action_quit) {
+            AdminSharedPreference adminSharedPreference=new AdminSharedPreference(MainActivity.this);
+            adminSharedPreference.quitSign();
+            Intent intent=new Intent(MainActivity.this,LoginActivity.class);
             startActivity(intent);
             return true;
+        } else {
+            if (id == R.id.action_add) {
+                Intent intent = new Intent(MainActivity.this, AddPigActivity.class);
+                startActivity(intent);
+                return true;
+            }
         }
 
         return super.onOptionsItemSelected(item);

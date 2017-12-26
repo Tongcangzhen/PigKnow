@@ -5,8 +5,6 @@ import android.os.Bundle;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.example.ldjg.pigknow.fragment.pigExpenditure;
-
 public class PigDetailActivity extends AppCompatActivity {
 
     @Override

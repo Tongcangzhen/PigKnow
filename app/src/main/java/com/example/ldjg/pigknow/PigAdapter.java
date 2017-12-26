@@ -1,4 +1,4 @@
-package com.example.ldjg.pigknow.fragment;
+package com.example.ldjg.pigknow;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -7,10 +7,6 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
-
-import com.example.ldjg.pigknow.PigDetailActivity;
-import com.example.ldjg.pigknow.R;
 
 import java.util.ArrayList;
 
@@ -40,7 +36,7 @@ public class PigAdapter extends RecyclerView.Adapter<PigAdapter.ViewHolder> {
     }
     @Override
     public PigAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view,parent,false);
+        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view,null);
         final ViewHolder holder=new ViewHolder(view);
         holder.pigview.setOnClickListener(new View.OnClickListener(){
             @Override

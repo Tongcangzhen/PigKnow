@@ -1,4 +1,4 @@
-package com.example.ldjg.pigknow.fragment;
+package com.example.ldjg.pigknow;
 
 import java.io.Serializable;
 

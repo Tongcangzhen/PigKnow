@@ -1,17 +1,13 @@
-package com.example.ldjg.pigknow.fragment;
+package com.example.ldjg.pigknow;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ImageView;
-import android.widget.LinearLayout;
-import android.widget.TextView;
-
-import com.example.ldjg.pigknow.R;
 
 import java.util.ArrayList;
 
@@ -31,6 +27,9 @@ public class content_mian_fragment extends Fragment {
         recyclerView.setLayoutManager(layoutManager);
         PigAdapter pigAdapter=new PigAdapter(pigExpenditures);
         recyclerView.setAdapter(pigAdapter);
+        recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
+                DividerItemDecoration.VERTICAL));
+//        recyclerView.setItemAnimator(new DefaultItemAnimator());
         return view;
     }
 
@@ -39,8 +38,8 @@ public class content_mian_fragment extends Fragment {
             pigExpenditure pigExpenditure=new pigExpenditure();
             pigExpenditure.setData("2017/12/12");
             pigExpenditure.setFarms_name("默认农场");
-            pigExpenditure.setNumber(3);
-            pigExpenditure.setPhoto(R.mipmap.ic_launcher_chuipaopao);
+            pigExpenditure.setNumber(i);
+            pigExpenditure.setPhoto(R.mipmap.ic_launcher_joji);
             pigExpenditures.add(pigExpenditure);
         }
     }
