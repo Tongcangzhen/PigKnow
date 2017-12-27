@@ -5,17 +5,20 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    tools:context="com.example.ldjg.pigknow.AddPigActivity">
+    tools:context="com.example.ldjg.pigknow.AddPigActivity"
+    android:weightSum="1">
     <TextView
         android:layout_marginTop="30dp"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:text="添加新的属于您管辖的农场"
-        android:textSize="20dp"/>
+        android:textSize="20dp"
+        android:layout_margin="10dp"/>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp">
+        android:layout_marginTop="20dp"
+        android:layout_margin="20dp">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -24,7 +27,8 @@
     </android.support.design.widget.TextInputLayout>
     <android.support.design.widget.TextInputLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content">
+        android:layout_height="wrap_content"
+        android:layout_margin="20dp">
         <EditText
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
@@ -35,12 +39,14 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:clickable="true"
-        android:text="查看已登记农场"
+        android:text="@string/check_farms"
         android:layout_gravity="center_horizontal"
         android:textSize="20dp"
         android:layout_marginTop="30dp"
         android:textColor="@color/md_pink_300"
-        android:id="@+id/textview_farms_check"/>
+        android:id="@+id/textview_farms_check"
+        android:autoLink="all"
+        android:layout_weight="0.04" />
 
     <Button
         android:layout_width="match_parent"

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.widget.LinearLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.example.ldjg.pigknow.Adapter.FarmsAdapter;
 import com.example.ldjg.pigknow.Util.AdminSharedPreference;
@@ -53,6 +54,10 @@ public class GetFarmsActivity extends AppCompatActivity {
                     FarmsAdapter farmsAdapter = new FarmsAdapter(list);
                     recyclerView.setAdapter(farmsAdapter);
                 }
+                else {
+                    Toast.makeText(getApplicationContext(), "连接数据库失败", Toast.LENGTH_SHORT).show();
+                }
+
             }
         });
     }
