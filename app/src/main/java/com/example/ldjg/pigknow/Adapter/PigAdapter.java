@@ -1,4 +1,4 @@
-package com.example.ldjg.pigknow;
+package com.example.ldjg.pigknow.Adapter;
 
 import android.content.Intent;
 import android.support.v7.widget.RecyclerView;
@@ -7,6 +7,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.example.ldjg.pigknow.PigDetailActivity;
+import com.example.ldjg.pigknow.R;
+import com.example.ldjg.pigknow.pigExpenditure;
 
 import java.util.ArrayList;
 

@@ -24,7 +24,7 @@
         <activity
             android:name=".MainActivity"
             android:label="@string/app_name"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar" />
         <activity android:name=".PigDetailActivity" />
         <activity android:name=".AddPigActivity" />
         <activity
@@ -36,9 +36,11 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegisterActivity"></activity>
-        <activity android:name=".RegisterAdminActivity"
-            android:label="@string/title_activity_register"></activity>
+        <activity android:name=".RegisterActivity" />
+        <activity
+            android:name=".RegisterAdminActivity"
+            android:label="@string/title_activity_register" />
+        <activity android:name=".GetFarmsActivity"></activity>
     </application>
 
 </manifest>

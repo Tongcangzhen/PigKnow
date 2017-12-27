@@ -48,7 +48,7 @@ public class RegisterActivity extends AppCompatActivity {
         ButterKnife.bind(this);
 //        iv_left.setVisibility(View.VISIBLE);
 //        tv_title.setText("注册");
-    }
+}
 
 //    @OnClick(R.id.iv_left)
 //    public void back() {
