@@ -40,6 +40,13 @@ public class AdminSharedPreference {
         editor.putBoolean("isAdminSign",true);
         editor.apply();
     }
+
+    public void setInvitationCode(String invitationCode){
+        editor=preferences.edit();
+        editor.putString("invitationCode",invitationCode);
+        editor.apply();
+    }
+
     public Admin getAdminObj(){
         admin.setAdminAccount(preferences.getString("adminAccount",""));
         admin.setObjectId(preferences.getString("objectId",""));
