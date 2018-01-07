@@ -10,10 +10,11 @@ import android.widget.TextView;
 
 import com.example.ldjg.pigknow.PigDetailActivity;
 import com.example.ldjg.pigknow.R;
+import com.example.ldjg.pigknow.database.Record;
 import com.example.ldjg.pigknow.pigExpenditure;
 
 import java.util.ArrayList;
-
+import java.util.List;
 
 
 /**
@@ -22,13 +23,14 @@ import java.util.ArrayList;
 
 public class PigAdapter extends RecyclerView.Adapter<PigAdapter.ViewHolder> {
 
-    private ArrayList<pigExpenditure> mpigList;
+    private List<Record> mpigList;
     public class ViewHolder extends RecyclerView.ViewHolder{
         View pigview;
         ImageView defaultpig_image;
         TextView  farms_name;
         TextView data;
         TextView number;
+        TextView status;
         public ViewHolder(View view){
             super(view);
             pigview =view;
@@ -36,6 +38,7 @@ public class PigAdapter extends RecyclerView.Adapter<PigAdapter.ViewHolder> {
             farms_name=(TextView)view.findViewById(R.id.farms_name);
             data=(TextView)view.findViewById(R.id.date);
             number=(TextView)view.findViewById(R.id.number);
+            status=(TextView)view.findViewById(R.id.textview_audit_status);
         }
     }
     @Override
@@ -46,9 +49,9 @@ public class PigAdapter extends RecyclerView.Adapter<PigAdapter.ViewHolder> {
             @Override
             public void onClick(View v){
                 int position=holder.getAdapterPosition();
-                pigExpenditure pigExpenditure=mpigList.get(position);
+                Record record=mpigList.get(position);
                 Intent intent=new Intent(v.getContext(), PigDetailActivity.class);
-                intent.putExtra("pig_data",pigExpenditure);
+                intent.putExtra("pig_data",record);
                 v.getContext().startActivity(intent);
 //                startActivity(intent);
 //                Toast.makeText(v.getContext(),"youclicked"+pigExpenditure.getFarms_name(),Toast.LENGTH_SHORT).show();
@@ -61,13 +64,23 @@ public class PigAdapter extends RecyclerView.Adapter<PigAdapter.ViewHolder> {
 
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
-        pigExpenditure pg=new pigExpenditure();
-        pg=mpigList.get(position);
-        holder.defaultpig_image.setImageResource(pg.getPhoto());
-        holder.number.setText(pg.getNumber()+"");
+        Record record=new Record();
+        int audit=record.getAudit();
+        if (audit == 0) {
+            holder.status.setText("未审核");
+        } else if (audit == 1) {
+            holder.status.setText("通过");
+        } else if (audit == 2) {
+            holder.status.setText("未通过");
+        } else {
+            holder.status.setText("获取状态失败");
+        }
+        record=mpigList.get(position);
+        holder.defaultpig_image.setImageResource(R.mipmap.ic_launcher_chuipaopao);
+        holder.number.setText(record.getNum()+"");
 //            holder.textView_money.setText(expenditure.getMoney());
-        holder.farms_name.setText(pg.getFarms_name());
-        holder.data.setText(pg.getData());
+        holder.farms_name.setText(record.getFarmsName());
+        holder.data.setText(record.getUpLoadDate());
 
     }
 
@@ -76,9 +89,9 @@ public class PigAdapter extends RecyclerView.Adapter<PigAdapter.ViewHolder> {
         return mpigList.size();
     }
 
-    public PigAdapter(ArrayList<pigExpenditure> pigExpenditures)
+    public PigAdapter(List<Record> records)
     {
-        this.mpigList=pigExpenditures;
+        this.mpigList=records;
     }
 
 }
