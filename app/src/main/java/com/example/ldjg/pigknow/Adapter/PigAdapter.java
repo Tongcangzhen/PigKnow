@@ -65,6 +65,7 @@ public class PigAdapter extends RecyclerView.Adapter<PigAdapter.ViewHolder> {
     @Override
     public void onBindViewHolder(ViewHolder holder, int position) {
         Record record=new Record();
+        record=mpigList.get(position);
         int audit=record.getAudit();
         if (audit == 0) {
             holder.status.setText("未审核");
@@ -75,8 +76,7 @@ public class PigAdapter extends RecyclerView.Adapter<PigAdapter.ViewHolder> {
         } else {
             holder.status.setText("获取状态失败");
         }
-        record=mpigList.get(position);
-        holder.defaultpig_image.setImageResource(R.mipmap.ic_launcher_chuipaopao);
+        holder.defaultpig_image.setImageResource(R.mipmap.ic_launcher_qiaozhi);
         holder.number.setText(record.getNum()+"");
 //            holder.textView_money.setText(expenditure.getMoney());
         holder.farms_name.setText(record.getFarmsName());
