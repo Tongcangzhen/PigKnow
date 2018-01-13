@@ -34,6 +34,20 @@ public class content_mian_fragment extends Fragment {
     private ArrayList<Record> records=new ArrayList<Record>();
     private Unbinder unbinder;
 
+    private boolean flag;
+
+    public static content_mian_fragment newInstance(boolean q) {
+        content_mian_fragment newf=new content_mian_fragment();
+        Bundle bundle = new Bundle();
+        bundle.putBoolean("flag", q);
+        newf.setArguments(bundle);
+        return newf;
+    }
+
+
+
+
+
 
     @BindView(R.id.pig_recyclerView)
     RecyclerView recyclerView;
@@ -41,6 +55,17 @@ public class content_mian_fragment extends Fragment {
 
 
     @Override
+    public void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        Bundle args = getArguments();
+        if (args != null) {
+            flag = args.getBoolean("flag");
+        }
+    }
+
+
+        @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_main, container, false);
         ButterKnife.bind(this,view);
@@ -52,12 +77,19 @@ public class content_mian_fragment extends Fragment {
 //        recyclerView.setItemAnimator(new DefaultItemAnimator());
         return view;
     }
+
+
+
     private void getData() {
         AdminSharedPreference adminSharedPreference=new AdminSharedPreference(getContext());
         Admin admin= adminSharedPreference.getAdminObj();
         BmobQuery<Record> query=new BmobQuery<Record>();
-        query.addWhereEqualTo("audit",0);
         BmobQuery<Farms> innerQuery=new BmobQuery<Farms>();
+        if (flag) {
+            query.addWhereEqualTo("audit", 0);
+        } else {
+            query.addWhereNotEqualTo("audit",0);
+        }
         innerQuery.addWhereEqualTo("admin",admin);
         query.addWhereMatchesQuery("farms","Farms",innerQuery);
         query.findObjects(new FindListener<Record>() {

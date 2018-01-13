@@ -13,15 +13,17 @@ import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.ldjg.pigknow.Util.AdminSharedPreference;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
-
+    private long firstTime = 0;
     private TextView mTextMessage;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = new BottomNavigationView.OnNavigationItemSelectedListener() {
@@ -31,10 +33,14 @@ public class MainActivity extends AppCompatActivity
             switch (item.getItemId()) {
                 case R.id.navigation_home:
 //                    mTextMessage.setText(R.string.title_home);
-                    replaceFragment(new content_mian_fragment());
+                    replaceFragment(content_mian_fragment.newInstance(true));
                     return true;
                 case R.id.navigation_assessment:
 //                    mTextMessage.setText(R.string.title_assessment);
+                    replaceFragment(content_mian_fragment.newInstance(false));
+                    return true;
+                case R.id.navigation_adminitself:
+//                    replaceFragment(new AdminInformationFragment());
                     replaceFragment(new contrnt_assment_fragment());
                     return true;
 
@@ -72,7 +78,7 @@ public class MainActivity extends AppCompatActivity
 //        mTextMessage= (TextView) findViewById(R.id.testtxt);
         BottomNavigationView navigation = (BottomNavigationView) findViewById(R.id.navigation);
         navigation.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
-        replaceFragment(new content_mian_fragment());
+        replaceFragment(content_mian_fragment.newInstance(true));
     }
 
     @Override
@@ -142,6 +148,23 @@ public class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    @Override
+    public boolean onKeyDown(int keyCode, KeyEvent event) {
+        long secondTime = System.currentTimeMillis();
+        if (keyCode == KeyEvent.KEYCODE_BACK) {
+            if ( secondTime - firstTime < 2000) {
+                 Intent home = new Intent(Intent.ACTION_MAIN);
+                 home.addCategory(Intent.CATEGORY_HOME);
+                 startActivity(home);
+            } else {
+                Toast.makeText(MainActivity.this, "再按一次退出程序", Toast.LENGTH_SHORT).show();
+                firstTime = System.currentTimeMillis();
+            }
+            return true;
+        }
+        return super.onKeyDown(keyCode, event);
     }
 
     private void replaceFragment(Fragment fragment){
