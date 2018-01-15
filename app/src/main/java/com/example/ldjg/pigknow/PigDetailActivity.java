@@ -2,6 +2,7 @@ package com.example.ldjg.pigknow;
 
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -52,7 +53,16 @@ public class PigDetailActivity extends AppCompatActivity {
         ButterKnife.bind(this);
         record=(Record)getIntent().getSerializableExtra("pig_data");
         initData();
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                UIHelper.returnHome(this);
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     private void initData(){

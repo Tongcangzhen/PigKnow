@@ -117,15 +117,6 @@ public class content_mian_fragment extends Fragment {
 //        unbinder.unbind();
 //    }
 
-//    private  void initData(){
-//        for(int i=0;i<20;i++){
-//            pigExpenditure pigExpenditure=new pigExpenditure();
-//            pigExpenditure.setData("2017/12/12");
-//            pigExpenditure.setFarms_name("默认农场");
-//            pigExpenditure.setNumber(i);
-//            pigExpenditure.setPhoto(R.mipmap.ic_launcher_joji);
-//            pigExpenditures.add(pigExpenditure);
-//        }
-//    }
+
 }
 

@@ -11,7 +11,6 @@ import android.widget.TextView;
 import com.example.ldjg.pigknow.PigDetailActivity;
 import com.example.ldjg.pigknow.R;
 import com.example.ldjg.pigknow.database.Record;
-import com.example.ldjg.pigknow.pigExpenditure;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -54,7 +53,6 @@ public class PigAdapter extends RecyclerView.Adapter<PigAdapter.ViewHolder> {
                 intent.putExtra("pig_data",record);
                 v.getContext().startActivity(intent);
 //                startActivity(intent);
-//                Toast.makeText(v.getContext(),"youclicked"+pigExpenditure.getFarms_name(),Toast.LENGTH_SHORT).show();
             }
         });
         return holder;

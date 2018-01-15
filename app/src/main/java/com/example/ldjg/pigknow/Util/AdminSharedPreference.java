@@ -47,6 +47,12 @@ public class AdminSharedPreference {
         editor.apply();
     }
 
+    public void setStartDate(String date) {
+        editor=preferences.edit();
+        editor.putString("startDate",date);
+        editor.apply();
+    }
+
     public Admin getAdminObj(){
         admin.setAdminAccount(preferences.getString("adminAccount",""));
         admin.setObjectId(preferences.getString("objectId",""));

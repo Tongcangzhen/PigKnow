@@ -12,7 +12,7 @@ import com.example.ldjg.pigknow.AddPigActivity;
 import com.example.ldjg.pigknow.PigDetailActivity;
 import com.example.ldjg.pigknow.R;
 import com.example.ldjg.pigknow.database.Farms;
-import com.example.ldjg.pigknow.pigExpenditure;
+
 
 import java.util.ArrayList;
 import java.util.List;
@@ -46,8 +46,6 @@ public class FarmsAdapter extends RecyclerView.Adapter<FarmsAdapter.ViewHolder> 
                 Intent intent=new Intent(v.getContext(), AddPigActivity.class);
                 intent.putExtra("pig_data",farms);
                 v.getContext().startActivity(intent);
-//                startActivity(intent);
-//                Toast.makeText(v.getContext(),"youclicked"+pigExpenditure.getFarms_name(),Toast.LENGTH_SHORT).show();
             }
         });
         return holder;
