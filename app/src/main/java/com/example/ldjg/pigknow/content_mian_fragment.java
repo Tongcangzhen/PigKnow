@@ -1,5 +1,6 @@
 package com.example.ldjg.pigknow;
 
+import android.app.Dialog;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v7.widget.DividerItemDecoration;
@@ -12,6 +13,7 @@ import android.widget.Toast;
 
 import com.example.ldjg.pigknow.Adapter.PigAdapter;
 import com.example.ldjg.pigknow.Util.AdminSharedPreference;
+import com.example.ldjg.pigknow.Util.UIHelper;
 import com.example.ldjg.pigknow.database.Admin;
 import com.example.ldjg.pigknow.database.Farms;
 import com.example.ldjg.pigknow.database.Record;
@@ -33,7 +35,7 @@ import cn.bmob.v3.listener.FindListener;
 public class content_mian_fragment extends Fragment {
     private ArrayList<Record> records=new ArrayList<Record>();
     private Unbinder unbinder;
-
+    private Dialog waitDialog;
     private boolean flag;
 
     public static content_mian_fragment newInstance(boolean q) {
@@ -66,17 +68,16 @@ public class content_mian_fragment extends Fragment {
 
 
         @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.content_main, container, false);
-        ButterKnife.bind(this,view);
-        LinearLayoutManager layoutManager=new LinearLayoutManager(getActivity());
-        recyclerView.setLayoutManager(layoutManager);
-
-//        initData();
-       getData();
+        public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+            View view = inflater.inflate(R.layout.content_main, container, false);
+            ButterKnife.bind(this, view);
+            LinearLayoutManager layoutManager = new LinearLayoutManager(getActivity());
+            recyclerView.setLayoutManager(layoutManager);
+            waitDialog = UIHelper.createLoadingDialog(getContext(), "加载中...");
+            getData();
 //        recyclerView.setItemAnimator(new DefaultItemAnimator());
-        return view;
-    }
+            return view;
+        }
 
 
 
@@ -96,11 +97,13 @@ public class content_mian_fragment extends Fragment {
             @Override
             public void done(List<Record> list, BmobException e) {
                 if (e == null) {
+                    UIHelper.closeDialog(waitDialog);
                     PigAdapter pigAdapter=new PigAdapter(list);
                     recyclerView.setAdapter(pigAdapter);
                     recyclerView.addItemDecoration(new DividerItemDecoration(getActivity(),
                             DividerItemDecoration.VERTICAL));
                 } else {
+                    UIHelper.closeDialog(waitDialog);
                     Toast.makeText(getContext(), "查询失败", Toast.LENGTH_LONG).show();
                     e.printStackTrace();
                 }

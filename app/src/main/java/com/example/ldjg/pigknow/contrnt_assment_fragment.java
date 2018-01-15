@@ -1,5 +1,6 @@
 package com.example.ldjg.pigknow;
 
+import android.app.Dialog;
 import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -19,6 +20,7 @@ import com.example.ldjg.pigknow.Adapter.PigAdapter;
 import com.example.ldjg.pigknow.Adapter.TableAdapter;
 import com.example.ldjg.pigknow.R;
 import com.example.ldjg.pigknow.Util.AdminSharedPreference;
+import com.example.ldjg.pigknow.Util.UIHelper;
 import com.example.ldjg.pigknow.database.Admin;
 import com.example.ldjg.pigknow.database.AssBean;
 import com.example.ldjg.pigknow.database.Farms;
@@ -40,7 +42,7 @@ import cn.bmob.v3.listener.FindListener;
  */
 
 public class contrnt_assment_fragment extends Fragment {
-    private static final String[] name={"刘备","关羽","张飞","曹操","小乔"};
+    private Dialog waitDialog;
     private ArrayAdapter<String> arrayAdapter;
     private String selectFarmName;
     ArrayList<String> farmNameList;
@@ -69,11 +71,13 @@ public class contrnt_assment_fragment extends Fragment {
     }
 
     private void showSpinner() {
+        waitDialog=UIHelper.createLoadingDialog(getContext(),"加载中....");
         BmobQuery<Farms> query=new BmobQuery<Farms>();
         query.addWhereEqualTo("admin",admin);
         query.findObjects(new FindListener<Farms>() {
             @Override
             public void done(List<Farms> list, BmobException e) {
+                UIHelper.closeDialog(waitDialog);
                 if (e == null) {
                     farmNameList = new ArrayList<String>();
                     for (Farms farms : list) {
@@ -95,6 +99,7 @@ public class contrnt_assment_fragment extends Fragment {
     }
 
     private void showTable() {
+        waitDialog=UIHelper.createLoadingDialog(getContext(),"加载中....");
         BmobQuery<Record> query=new BmobQuery<Record>();
         BmobQuery<Farms> innerQuery=new BmobQuery<Farms>();
         query.addWhereEqualTo("audit",1);
@@ -104,6 +109,7 @@ public class contrnt_assment_fragment extends Fragment {
         query.findObjects(new FindListener<Record>() {
             @Override
             public void done(List<Record> list, BmobException e) {
+                UIHelper.closeDialog(waitDialog);
                 int i=1;
                 int sum=0;
                 assBeanList=new ArrayList<AssBean>();

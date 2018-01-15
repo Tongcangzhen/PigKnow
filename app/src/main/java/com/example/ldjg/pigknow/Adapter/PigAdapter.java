@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.example.ldjg.pigknow.PigDetailActivity;
@@ -15,13 +16,16 @@ import com.example.ldjg.pigknow.database.Record;
 import java.util.ArrayList;
 import java.util.List;
 
+import butterknife.BindView;
+import butterknife.ButterKnife;
+
 
 /**
  * Created by ldjg on 2017/12/12.
  */
 
 public class PigAdapter extends RecyclerView.Adapter<PigAdapter.ViewHolder> {
-
+    private static final int EMPTY_VIEW = 1;
     private List<Record> mpigList;
     public class ViewHolder extends RecyclerView.ViewHolder{
         View pigview;
@@ -40,23 +44,44 @@ public class PigAdapter extends RecyclerView.Adapter<PigAdapter.ViewHolder> {
             status=(TextView)view.findViewById(R.id.textview_audit_status);
         }
     }
+
+//    public class EmptyViewHolder extends PigAdapter.ViewHolder {
+//
+//        @BindView(R.id.linearlayout_no_data)
+//        public LinearLayout linearLayout;
+//
+//        public EmptyViewHolder(View itemView) {
+//            super(itemView);
+//            ButterKnife.bind(this, itemView);
+//        }
+//    }
+
+
     @Override
     public PigAdapter.ViewHolder onCreateViewHolder(ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view,null);
-        final ViewHolder holder=new ViewHolder(view);
-        holder.pigview.setOnClickListener(new View.OnClickListener(){
-            @Override
-            public void onClick(View v){
-                int position=holder.getAdapterPosition();
-                Record record=mpigList.get(position);
-                Intent intent=new Intent(v.getContext(), PigDetailActivity.class);
-                intent.putExtra("pig_data",record);
-                v.getContext().startActivity(intent);
+//        View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.recycler_view,null);
+        LayoutInflater inflater = LayoutInflater.from(parent.getContext());
+//        if (viewType == EMPTY_VIEW) {
+//            View view = inflater.inflate(R.layout.empty_view, parent, false);
+//            return new EmptyViewHolder(view);
+//        } else {
+            View view = inflater.inflate(R.layout.recycler_view, null);
+            final ViewHolder holder=new ViewHolder(view);
+            holder.pigview.setOnClickListener(new View.OnClickListener(){
+                @Override
+                public void onClick(View v){
+                    int position=holder.getAdapterPosition();
+                    Record record=mpigList.get(position);
+                    Intent intent=new Intent(v.getContext(), PigDetailActivity.class);
+                    intent.putExtra("pig_data",record);
+                    v.getContext().startActivity(intent);
 //                startActivity(intent);
-            }
-        });
-        return holder;
+                }
+            });
+            return holder;
+
     }
+
 
 
 
@@ -86,6 +111,15 @@ public class PigAdapter extends RecyclerView.Adapter<PigAdapter.ViewHolder> {
     public int getItemCount() {
         return mpigList.size();
     }
+
+//    @Override
+//    public int getItemViewType(int position) {
+//        if (mpigList.size() == 0) {
+//            return EMPTY_VIEW;
+//        }
+//        return super.getItemViewType(position);
+//    }
+
 
     public PigAdapter(List<Record> records)
     {
