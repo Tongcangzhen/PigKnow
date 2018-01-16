@@ -40,11 +40,14 @@ import com.example.ldjg.pigknow.database.Admin;
 import java.util.ArrayList;
 import java.util.List;
 
+import cn.bmob.push.BmobPush;
 import cn.bmob.v3.Bmob;
+import cn.bmob.v3.BmobInstallation;
 import cn.bmob.v3.BmobQuery;
 import cn.bmob.v3.BmobUser;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
+import cn.bmob.v3.listener.UpdateListener;
 
 import static android.Manifest.permission.READ_CONTACTS;
 
@@ -57,6 +60,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
      * Id to identity READ_CONTACTS permission request.
      */
     private static final int REQUEST_READ_CONTACTS = 0;
+    private String InstallationId;
     static final String Application_ID="06c7495520e2e880e986f7c707b91fcb";
     /**
      * A dummy authentication store containing known user names and passwords.
@@ -87,10 +91,11 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         // Set up the login form.
 
         Bmob.initialize(this,Application_ID);
-
+        BmobInstallation.getCurrentInstallation().save();
+        InstallationId = BmobInstallation.getInstallationId(this);
+        BmobPush.startWork(this);
         mEmailView = (AutoCompleteTextView) findViewById(R.id.email);
         populateAutoComplete();
-
         mPasswordView = (EditText) findViewById(R.id.password);
         mPasswordView.setOnEditorActionListener(new TextView.OnEditorActionListener() {
             @Override
@@ -102,7 +107,6 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                 return false;
             }
         });
-
         pref= PreferenceManager.getDefaultSharedPreferences(this);
         rememberPasswd=(CheckBox)findViewById(R.id.remember_pass) ;
         boolean isremember=pref.getBoolean("remember_password",false);
@@ -251,7 +255,7 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
 //            mAuthTask.execute((Void) null);
         }
     }
-    private void loginAdminBmob(String account,String password){
+    private void loginAdminBmob(final String account, String password){
         BmobQuery<Admin> query=new BmobQuery<Admin>();
         query.addWhereEqualTo("adminAccount",account);
         query.findObjects(new FindListener<Admin>() {
@@ -265,6 +269,10 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
                     }
                     else {
                         Admin admin= list.get(0);
+                        if (admin.getInstalId()==null||admin.getInstalId()!=InstallationId) {
+                            setInstallationId(admin);
+                            admin.setInstalId(InstallationId);
+                        }
                         AdminSharedPreference preference=new AdminSharedPreference(LoginActivity.this,admin);
                         preference.setPreferences();
                         Toast.makeText(LoginActivity.this, "登录成功：", Toast.LENGTH_SHORT).show();
@@ -282,66 +290,25 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
         });
     }
 
-//    private void attemptLogin() {
-//        if (mAuthTask != null) {
-//            return;
-//        }
-//
-//        // Reset errors.
-//        mEmailView.setError(null);
-//        mPasswordView.setError(null);
-//
-//        // Store values at the time of the login attempt.
-//        String email = mEmailView.getText().toString();
-//        String password = mPasswordView.getText().toString();
-//
-//        boolean cancel = false;
-//        View focusView = null;
-//
-//        // Check for a valid password, if the user entered one.
-//        if (!TextUtils.isEmpty(password) && !isPasswordValid(password)) {
-//            mPasswordView.setError(getString(R.string.error_invalid_password));
-//            focusView = mPasswordView;
-//            cancel = true;
-//        }
-//
-//        // Check for a valid email address.
-//        if (TextUtils.isEmpty(email)) {
-//            mEmailView.setError(getString(R.string.error_field_required));
-//            focusView = mEmailView;
-//            cancel = true;
-//        } else if (!isEmailValid(email)) {
-//            mEmailView.setError(getString(R.string.error_invalid_email));
-//            focusView = mEmailView;
-//            cancel = true;
-//        }
-//
-//        if (cancel) {
-//            // There was an error; don't attempt login and focus the first
-//            // form field with an error.
-//            focusView.requestFocus();
-//        } else {
-//            // Show a progress spinner, and kick off a background task to
-//            // perform the user login attempt.
-//
-//            //记住密码功能
-//            editor=pref.edit();
-//            if(rememberPasswd.isChecked()){
-//                editor.putBoolean("remember_password",true);
-//                editor.putString("account",email);
-//                editor.putString("password",password);
-//            }
-//            else {
-//                editor.clear();
-//            }
-//            editor.apply();
-//
-//
-//            showProgress(true);
-//            mAuthTask = new UserLoginTask(email, password);
-//            mAuthTask.execute((Void) null);
-//        }
-//    }
+    private void setInstallationId(Admin admin) {
+        if (admin.getInstalId() == null) {
+            String id = admin.getObjectId();
+            Admin admin1 = new Admin();
+            admin1.setObjectId(admin.getObjectId());
+            admin1.setInstalId(InstallationId);
+            admin1.update(new UpdateListener() {
+                @Override
+                public void done(BmobException e) {
+                    if (e == null) {
+                        Toast.makeText(LoginActivity.this, "绑定设备成功", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(LoginActivity.this, "绑定设备失败", Toast.LENGTH_SHORT).show();
+                        e.printStackTrace();
+                    }
+                }
+            });
+        }
+    }
 
     private boolean isEmailValid(String email) {
         //TODO: Replace this with your own logic

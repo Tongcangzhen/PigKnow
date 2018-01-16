@@ -10,6 +10,15 @@ import cn.bmob.v3.listener.SaveListener;
 
 public class Admin extends BmobObject {
     private String invitationCode;
+    private String instalId;
+
+    public String getInstalId() {
+        return instalId;
+    }
+
+    public void setInstalId(String instalId) {
+        this.instalId = instalId;
+    }
 
     public String getAdminAccount() {
         return adminAccount;

@@ -8,6 +8,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
+import com.example.ldjg.pigknow.Util.MD5;
 import com.example.ldjg.pigknow.database.Admin;
 import com.example.ldjg.pigknow.database.User;
 
@@ -36,6 +37,7 @@ public class RegisterAdminActivity extends AppCompatActivity {
 
     @BindView(R.id.btn_register)
     Button btn_register;
+    String incode;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -81,7 +83,7 @@ public class RegisterAdminActivity extends AppCompatActivity {
             Toast.makeText(RegisterAdminActivity.this, "两次密码不一样：", Toast.LENGTH_SHORT).show();
             return;
         }
-
+        incode = MD5.GetMD5Code(account);
         BmobQuery<Admin> query=new BmobQuery<Admin>();
         query.addWhereEqualTo("adminAccount",account);
         query.findObjects(new FindListener<Admin>() {
@@ -90,7 +92,8 @@ public class RegisterAdminActivity extends AppCompatActivity {
                 if(e==null){
                     if(list.size()==0)
                     {
-                        myRegisterAdmin(account,password,"qwerty");
+
+                        myRegisterAdmin(account,password,incode);
                     }
                     else {
                         Toast.makeText(RegisterAdminActivity.this, "账号已存在：", Toast.LENGTH_SHORT).show();

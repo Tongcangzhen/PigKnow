@@ -94,8 +94,9 @@ public class AccountItSelfActivity extends AppCompatActivity {
                         String input = et.getText().toString();
                         if (input.equals("")) {
                             Toast.makeText(getApplicationContext(), "邀请码不能为空！" + input, Toast.LENGTH_LONG).show();
-                        }
-                        else {
+                        } else if (input.length() <= 5) {
+                            Toast.makeText(getApplicationContext(), "邀请码太短（6位以上）！" + input, Toast.LENGTH_LONG).show();
+                        } else {
                             setInvitationCodeToDB(input);
                             textview_invitationCode.setText(input);
                         }
