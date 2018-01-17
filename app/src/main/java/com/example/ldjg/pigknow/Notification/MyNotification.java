@@ -30,7 +30,7 @@ public class MyNotification {
         } catch (JSONException e) {
             e.printStackTrace();
         }
-        String msg=("来自"+content);
+        String msg=content;
         Intent intent1 = new Intent(context, LoginActivity.class);
         PendingIntent pendingIntent = PendingIntent.getActivity(context, 0, intent1, 0);
         NotificationCompat.Builder builder = new NotificationCompat.Builder(context)

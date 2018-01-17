@@ -8,13 +8,17 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <Spinner
+        <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="20dp"
+            android:layout_height="25dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:id="@+id/spinner_date_start"
+            android:text="选择开始日期"
+            android:layout_gravity="center"
+            android:id="@+id/textview_date_start"
+            android:background="#F0F0F0"
+            android:clickable="true"
             />
         <View
             android:layout_width="0dp"
@@ -24,13 +28,17 @@
             android:layout_marginRight="5dp"
             android:background="#aa000000"
             android:layout_gravity="center"/>
-        <Spinner
+        <TextView
             android:layout_width="0dp"
             android:layout_weight="1"
-            android:layout_height="wrap_content"
+            android:layout_height="25dp"
             android:layout_marginLeft="20dp"
             android:layout_marginRight="20dp"
-            android:id="@+id/spinner_date_end"
+            android:text="选择结束日期"
+            android:layout_gravity="center"
+            android:id="@+id/textview_date_end"
+            android:background="#F0F0F0"
+            android:clickable="true"
             />
 
     </LinearLayout>
