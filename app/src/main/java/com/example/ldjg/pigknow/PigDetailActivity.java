@@ -88,11 +88,6 @@ public class PigDetailActivity extends AppCompatActivity {
         mNiceVideoPlayer.setUp(record.getVideoFile().getUrl(), null);
         TxVideoPlayerController controller = new TxVideoPlayerController(this);
         controller.setTitle("当前视频");
-//        Glide.with(this)
-//                .load(iamgeurl)
-////                .placeholder(R.drawable.img_default)
-////                .crossFade()
-//                .into(controller.imageView());
         mNiceVideoPlayer.setController(controller);
     }
 

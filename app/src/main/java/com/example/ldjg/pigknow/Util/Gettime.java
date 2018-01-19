@@ -1,6 +1,7 @@
 package com.example.ldjg.pigknow.Util;
 
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 
 import cn.bmob.v3.datatype.BmobDate;
@@ -17,10 +18,25 @@ public class Gettime {
         return str;
     }
 
-//    public static BmobDate getBmobDate() {
+    //    public static BmobDate getBmobDate() {
 //        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
 //
 //    }
+    public static String getMonthDate() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.MONTH, -1);    //得到前一个月
+        String start = format.format(c.getTime())+" 00:00:00";
+        return start;
+    }
+
+    public static String getWeekDate() {
+        SimpleDateFormat format = new SimpleDateFormat("yyyy-MM-dd");
+        Calendar c = Calendar.getInstance();
+        c.add(Calendar.DAY_OF_MONTH, -6);
+        String start = format.format(c.getTime())+" 00:00:00";
+        return start;
+    }
 
     public static String getthisdate() {
         SimpleDateFormat formatter    =   new    SimpleDateFormat    ("yyyy年MM月dd日");

@@ -13,18 +13,23 @@ import android.widget.Toast;
 
 import com.example.ldjg.pigknow.Adapter.PigAdapter;
 import com.example.ldjg.pigknow.Util.AdminSharedPreference;
+import com.example.ldjg.pigknow.Util.Gettime;
 import com.example.ldjg.pigknow.Util.UIHelper;
 import com.example.ldjg.pigknow.database.Admin;
 import com.example.ldjg.pigknow.database.Farms;
 import com.example.ldjg.pigknow.database.Record;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import butterknife.BindView;
 import butterknife.ButterKnife;
 import butterknife.Unbinder;
 import cn.bmob.v3.BmobQuery;
+import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
@@ -84,6 +89,14 @@ public class content_mian_fragment extends Fragment {
     private void getData() {
         AdminSharedPreference adminSharedPreference=new AdminSharedPreference(getContext());
         Admin admin= adminSharedPreference.getAdminObj();
+        String aDate = Gettime.getMonthDate();
+        Date date = null;
+        SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
+        try {
+            date = sdf.parse(aDate);
+        } catch (ParseException e) {
+            e.printStackTrace();
+        }
         BmobQuery<Record> query=new BmobQuery<Record>();
         BmobQuery<Farms> innerQuery=new BmobQuery<Farms>();
         if (flag) {
@@ -93,6 +106,7 @@ public class content_mian_fragment extends Fragment {
         }
         innerQuery.addWhereEqualTo("admin",admin);
         query.addWhereMatchesQuery("farms","Farms",innerQuery);
+        query.addWhereGreaterThanOrEqualTo("createdAt", new BmobDate(date));
         query.findObjects(new FindListener<Record>() {
             @Override
             public void done(List<Record> list, BmobException e) {
