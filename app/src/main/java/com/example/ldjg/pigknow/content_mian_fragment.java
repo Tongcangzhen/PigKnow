@@ -33,6 +33,9 @@ import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
+import static com.example.ldjg.pigknow.MainActivity.admin;
+import static com.example.ldjg.pigknow.MainActivity.status;
+
 /**
  * Created by ldjg on 2017/12/12.
  */
@@ -87,8 +90,6 @@ public class content_mian_fragment extends Fragment {
 
 
     private void getData() {
-        AdminSharedPreference adminSharedPreference=new AdminSharedPreference(getContext());
-        Admin admin= adminSharedPreference.getAdminObj();
         String aDate = Gettime.getMonthDate();
         Date date = null;
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
@@ -104,9 +105,14 @@ public class content_mian_fragment extends Fragment {
         } else {
             query.addWhereNotEqualTo("audit",0);
         }
-        innerQuery.addWhereEqualTo("admin",admin);
+        if (status == 1) {
+            innerQuery.addWhereEqualTo("admin", admin);
+        } else {
+            innerQuery.addWhereEqualTo("admin1", admin);
+        }
         query.addWhereMatchesQuery("farms","Farms",innerQuery);
         query.addWhereGreaterThanOrEqualTo("createdAt", new BmobDate(date));
+        query.order("-createdAt");
         query.findObjects(new FindListener<Record>() {
             @Override
             public void done(List<Record> list, BmobException e) {

@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
 import android.text.TextUtils;
 import android.widget.Button;
+import android.widget.CheckBox;
 import android.widget.EditText;
 import android.widget.Toast;
 
@@ -37,6 +38,10 @@ public class RegisterAdminActivity extends AppCompatActivity {
 
     @BindView(R.id.btn_register)
     Button btn_register;
+
+    @BindView(R.id.checkbox_admintype)
+    CheckBox checkBox_admin_type;
+
     String incode;
 
     @Override
@@ -155,7 +160,13 @@ public class RegisterAdminActivity extends AppCompatActivity {
         Admin admin=new Admin();
         admin.setAdminAccount(account);
         admin.setPassword(password);
+        if (checkBox_admin_type.isChecked()) {
+            admin.setAdminType(2);
+        } else {
+            admin.setAdminType(1);
+        }
         admin.setInvitationCode(invitationCode);
+        int a=admin.getAdminType();
         admin.save(new SaveListener<String>() {
 
             @Override

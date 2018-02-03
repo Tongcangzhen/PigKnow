@@ -45,6 +45,9 @@ import cn.bmob.v3.datatype.BmobDate;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.FindListener;
 
+import static com.example.ldjg.pigknow.MainActivity.admin;
+import static com.example.ldjg.pigknow.MainActivity.status;
+
 /**
  * Created by ldjg on 2017/12/12.
  */
@@ -61,8 +64,6 @@ public class contrnt_assment_fragment extends Fragment {
 
     ArrayList<String> farmNameList;
     List<AssBean> assBeanList;
-    Admin admin;
-    AdminSharedPreference adminSharedPreference;
 
     @BindView(R.id.spinner_assement)
     Spinner spinner;
@@ -83,8 +84,6 @@ public class contrnt_assment_fragment extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.content_assment, container, false);
         ButterKnife.bind(this, view);
-        adminSharedPreference = new AdminSharedPreference(getContext());
-        admin = adminSharedPreference.getAdminObj();
         showSpinner();
         initDatePicker();
         return view;
@@ -93,7 +92,11 @@ public class contrnt_assment_fragment extends Fragment {
     private void showSpinner() {
         waitDialog = UIHelper.createLoadingDialog(getContext(), "加载中....");
         BmobQuery<Farms> query = new BmobQuery<Farms>();
-        query.addWhereEqualTo("admin", admin);
+        if (status == 1) {
+            query.addWhereEqualTo("admin", admin);
+        } else {
+            query.addWhereEqualTo("admin1", admin);
+        }
         query.findObjects(new FindListener<Farms>() {
             @Override
             public void done(List<Farms> list, BmobException e) {
@@ -152,7 +155,7 @@ public class contrnt_assment_fragment extends Fragment {
                 query.addWhereGreaterThan("createdAt", new BmobDate(dateStart));
             }
         }
-        innerQuery.addWhereEqualTo("admin", admin);
+//        innerQuery.addWhereEqualTo("admin", admin);
         innerQuery.addWhereEqualTo("farmsName", selectFarmName);
         query.addWhereMatchesQuery("farms", "Farms", innerQuery);
         query.findObjects(new FindListener<Record>() {

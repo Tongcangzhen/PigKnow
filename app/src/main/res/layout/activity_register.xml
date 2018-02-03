@@ -103,6 +103,20 @@
         android:textColor="#444444"
         android:textSize="16sp" />
 </LinearLayout>
+         <LinearLayout
+             android:layout_width="match_parent"
+             android:layout_height="wrap_content"
+             android:orientation="horizontal">
+             <CheckBox
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:id="@+id/checkbox_admintype"/>
+             <TextView
+                 android:layout_width="wrap_content"
+                 android:layout_height="wrap_content"
+                 android:textSize="18dp"
+                 android:text="乡镇管理员"/>
+         </LinearLayout>
     <Button
         android:id="@+id/btn_register"
         android:layout_width="match_parent"

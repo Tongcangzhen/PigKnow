@@ -12,6 +12,15 @@ public class Farms extends BmobObject {
     private  String farmsName;
     private String adress;
     private Admin admin;
+    private Admin admin1;
+
+    public Admin getAdmin1() {
+        return admin1;
+    }
+
+    public void setAdmin1(Admin admin1) {
+        this.admin1 = admin1;
+    }
 
     public String getFarmsName() {
         return farmsName;

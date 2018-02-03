@@ -14,27 +14,68 @@
         android:text="添加新的属于您管辖的农场"
         android:textSize="20dp"
         android:layout_margin="10dp"/>
-    <android.support.design.widget.TextInputLayout
+
+    <LinearLayout
+        android:id="@+id/linearlayout_admin"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:layout_margin="20dp">
-        <EditText
+        android:orientation="vertical">
+
+        <android.support.design.widget.TextInputLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="农场名字"
-            android:id="@+id/edittext_add_farmsname"/>
-    </android.support.design.widget.TextInputLayout>
-    <android.support.design.widget.TextInputLayout
+            android:layout_margin="20dp"
+            android:layout_marginTop="20dp">
+
+            <EditText
+                android:id="@+id/edittext_add_farmsname"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="农场名字" />
+        </android.support.design.widget.TextInputLayout>
+
+        <android.support.design.widget.TextInputLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_margin="20dp">
+
+            <EditText
+                android:id="@+id/edittext_add_address"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="农场地址" />
+        </android.support.design.widget.TextInputLayout>
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/linearlayout_admin1"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_margin="20dp">
-        <EditText
-            android:layout_width="match_parent"
+        android:layout_gravity="center"
+        android:layout_margin="30dp"
+        android:orientation="vertical">
+
+        <TextView
+            android:id="@+id/textview_farms_admin1_find"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:hint="农场地址"
-            android:id="@+id/edittext_add_address"/>
-    </android.support.design.widget.TextInputLayout>
+            android:layout_gravity="center_horizontal"
+            android:layout_marginTop="30dp"
+            android:layout_weight="0.04"
+            android:autoLink="all"
+            android:clickable="true"
+            android:text="@string/check_farms1"
+            android:textColor="@color/md_pink_300"
+            android:textSize="20dp" />
+
+        <TextView
+            android:id="@+id/textview_admin1_farm"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="testText"
+            android:textSize="20dp"
+            android:layout_margin="20dp"/>
+    </LinearLayout>
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -47,6 +88,7 @@
         android:id="@+id/textview_farms_check"
         android:autoLink="all"
         android:layout_weight="0.04" />
+
 
     <Button
         android:layout_width="match_parent"

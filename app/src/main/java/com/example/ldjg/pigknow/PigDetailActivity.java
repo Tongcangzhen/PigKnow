@@ -3,6 +3,8 @@ package com.example.ldjg.pigknow;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -19,6 +21,8 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import cn.bmob.v3.exception.BmobException;
 import cn.bmob.v3.listener.UpdateListener;
+
+import static com.example.ldjg.pigknow.MainActivity.status;
 
 public class PigDetailActivity extends AppCompatActivity {
 
@@ -42,6 +46,12 @@ public class PigDetailActivity extends AppCompatActivity {
 
     @BindView(R.id.edittext_beizhu)
     EditText editTextRemarks;
+
+    @BindView(R.id.button_audit_pass)
+    Button buttonPass;
+
+    @BindView(R.id.button_audit_veto)
+    Button buttonVeto;
 
     Record record;
     int audit;
@@ -79,6 +89,11 @@ public class PigDetailActivity extends AppCompatActivity {
             textViewAudit.setText("审核未通过");
         } else {
             textViewAudit.setText("获取审核状态失败");
+        }
+        if (status == 2) {
+            buttonPass.setVisibility(View.GONE);
+            buttonVeto.setVisibility(View.GONE);
+            editTextRemarks.setVisibility(View.GONE);
         }
         initVideo();
     }

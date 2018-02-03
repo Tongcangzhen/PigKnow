@@ -293,10 +293,8 @@ public class LoginActivity extends AppCompatActivity implements LoaderCallbacks<
     private void setInstallationId(Admin admin) {
         if (admin.getInstalId() == null) {
             String id = admin.getObjectId();
-            Admin admin1 = new Admin();
-            admin1.setObjectId(admin.getObjectId());
-            admin1.setInstalId(InstallationId);
-            admin1.update(new UpdateListener() {
+            admin.setInstalId(InstallationId);
+            admin.update(new UpdateListener() {
                 @Override
                 public void done(BmobException e) {
                     if (e == null) {

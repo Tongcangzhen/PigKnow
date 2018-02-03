@@ -20,9 +20,13 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ldjg.pigknow.Util.AdminSharedPreference;
+import com.example.ldjg.pigknow.database.Admin;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+    public static AdminSharedPreference adminSharedPreference;
+    public static Admin admin;
+    public static int status;
     private long firstTime = 0;
     private TextView mTextMessage;
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -56,6 +60,9 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        adminSharedPreference=new AdminSharedPreference(this);
+        admin=adminSharedPreference.getAdminObj();
+        status = admin.getAdminType();
 
 //        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
 //        fab.setOnClickListener(new View.OnClickListener() {

@@ -39,6 +39,7 @@ public class AdminSharedPreference {
         editor.putString("updatedAt",admin.getUpdatedAt());
         editor.putString("installationId", admin.getInstalId());
         editor.putBoolean("isAdminSign",true);
+        editor.putInt("adminType", admin.getAdminType());
         editor.apply();
     }
 
@@ -61,6 +62,7 @@ public class AdminSharedPreference {
         admin.setPassword(preferences.getString("password",""));
         admin.setInvitationCode(preferences.getString("invitationCode",""));
         admin.setInstalId(preferences.getString("installationId", ""));
+        admin.setAdminType(preferences.getInt("adminType", 1));
         return admin;
     }
     public void quitSign(){
