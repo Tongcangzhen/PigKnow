@@ -11,6 +11,7 @@
     <string name="simple_list_dialog">已登记的农场</string>
     <string name="simple_list_dialog1">可登记的农场</string>
     <string name="check_farms">><b>查看已登记农场</b></string>
+    <string name="find_farms">><b>选择农场</b></string>
     <string name="check_farms1">><b>查看可登记农场</b></string>
 
     <string name="title_home">主页</string>

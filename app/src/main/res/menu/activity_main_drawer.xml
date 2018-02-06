@@ -13,7 +13,7 @@
         <item
             android:id="@+id/nav_account"
             android:icon="@drawable/ic_action_account_black"
-            android:title="设置" />
+            android:title="我的邀请码" />
         <item
             android:id="@+id/nav_manage"
             android:icon="@drawable/ic_menu_manage"
@@ -25,7 +25,7 @@
             <item
                 android:id="@+id/nav_share"
                 android:icon="@drawable/ic_menu_share"
-                android:title="分享" />
+                android:title="查看其它农场" />
             <item
                 android:id="@+id/nav_send"
                 android:icon="@drawable/ic_menu_send"

@@ -129,9 +129,6 @@ public class content_mian_fragment extends Fragment {
                 }
             }
         });
-
-
-
     }
 
 //    @Override
