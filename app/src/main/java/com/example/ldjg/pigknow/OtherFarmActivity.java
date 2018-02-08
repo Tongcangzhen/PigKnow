@@ -118,6 +118,7 @@ public class OtherFarmActivity extends AppCompatActivity {
         BmobQuery<Farms> query=new BmobQuery<Farms>();
         query.addWhereExists("admin1");
         query.addWhereExists("admin");
+        query.addWhereEqualTo("visible", 1);
         query.findObjects(new FindListener<Farms>() {
             @Override
             public void done(final List<Farms> list, BmobException e) {

@@ -13,6 +13,15 @@ public class Farms extends BmobObject {
     private String adress;
     private Admin admin;
     private Admin admin1;
+    private int visible;
+
+    public int getVisible() {
+        return visible;
+    }
+
+    public void setVisible(int visible) {
+        this.visible = visible;
+    }
 
     public Admin getAdmin1() {
         return admin1;

@@ -119,6 +119,7 @@ public class AddPigActivity extends AppCompatActivity {
 
         BmobQuery<Farms> query=new BmobQuery<Farms>();
         query.addWhereDoesNotExists("admin1");
+        query.addWhereEqualTo("visible", 1);
         query.findObjects(new FindListener<Farms>() {
             @Override
             public void done(final List<Farms> list, BmobException e) {
@@ -222,6 +223,7 @@ public class AddPigActivity extends AppCompatActivity {
         Farms farms=new Farms();
         farms.setFarmsName(farmsName);
         farms.setAdress(address);
+        farms.setVisible(1);
         farms.setAdmin(admin);
         farms.save(new SaveListener<String>() {
             @Override
