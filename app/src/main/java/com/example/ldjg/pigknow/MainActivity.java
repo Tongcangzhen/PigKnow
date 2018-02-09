@@ -16,11 +16,14 @@ import android.support.v7.widget.Toolbar;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.ldjg.pigknow.Util.AdminSharedPreference;
 import com.example.ldjg.pigknow.database.Admin;
+
+import cn.bmob.v3.update.BmobUpdateAgent;
 
 public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
@@ -60,6 +63,7 @@ public class MainActivity extends AppCompatActivity
         setContentView(R.layout.activity_main);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
+        BmobUpdateAgent.update(this);
         adminSharedPreference=new AdminSharedPreference(this);
         admin=adminSharedPreference.getAdminObj();
         status = admin.getAdminType();
@@ -114,7 +118,8 @@ public class MainActivity extends AppCompatActivity
 
         //noinspection SimplifiableIfStatement
         if (id == R.id.action_settings) {
-            return true;
+            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+            startActivity(intent);
         }
         if (id == R.id.action_quit) {
             AdminSharedPreference adminSharedPreference=new AdminSharedPreference(MainActivity.this);
@@ -144,7 +149,8 @@ public class MainActivity extends AppCompatActivity
             Intent intent=new Intent(MainActivity.this,AccountItSelfActivity.class);
             startActivity(intent);
         } else if (id == R.id.nav_manage) {
-
+            Intent intent = new Intent(MainActivity.this, SettingActivity.class);
+            startActivity(intent);
         } else if (id == R.id.nav_share) {
             Intent intent = new Intent(MainActivity.this, OtherFarmActivity.class);
             startActivity(intent);

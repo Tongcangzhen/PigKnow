@@ -45,6 +45,9 @@
             android:label="@string/title_activity_register" />
         <activity android:name=".GetFarmsActivity" />
         <activity android:name=".AccountItSelfActivity" />
+        <activity
+            android:name="cn.bmob.v3.update.UpdateDialogActivity"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"></activity>
 
         <service
             android:name="cn.bmob.push.lib.service.PushService"
@@ -59,7 +62,7 @@
         <!-- 用于进程保活 -->
         <service
             android:name="cn.bmob.push.lib.service.PushNotifyService"
-            android:process=":bmobpush"></service>
+            android:process=":bmobpush" />
 
         <receiver android:name="cn.bmob.push.PushReceiver">
             <intent-filter>
@@ -93,6 +96,8 @@
             </intent-filter>
         </receiver>
 
-        <activity android:name=".OtherFarmActivity"></activity>
+        <activity android:name=".OtherFarmActivity" />
+        <activity android:name=".SettingActivity"></activity>
     </application>
+
 </manifest>
